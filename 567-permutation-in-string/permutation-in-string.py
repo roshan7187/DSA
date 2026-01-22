@@ -4,19 +4,22 @@ class Solution:
         if len(s1) > len(s2) :
             return False
 
-        need = Counter(s1)
-        window = Counter(s2[:len(s1)])
+        need = [0]*26
+        window = [0]*26
+
+        for ch in s1 :
+            need[ord(ch) - ord('a')] += 1
+        
+        for ch in s2[:len(s1)] :
+            window[ord(ch) - ord('a')] +=1
 
         if window == need :
             return True
         
         left = 0
         for right in range(len(s1),len(s2)) :
-            window[s2[right]] +=1
-            window[s2[left]] -=1
-
-            if window[s2[left] == 0] :
-                del window[s2[left]]
+            window[ord(s2[right]) - ord('a')] +=1
+            window[ord(s2[left]) - ord('a')] -=1
             left+=1
 
             if window == need :
