@@ -1,22 +1,18 @@
 class Solution:
     def isTrionic(self, nums: List[int]) -> bool:
         n = len(nums)
-        peak = n - 1
-        valley = 0
+        i = 1
 
-        for i in range(n - 1):
-            if peak == n - 1 and nums[i] >= nums[i + 1]:
-                peak = i
-            if valley == 0 and nums[-1 - i] <= nums[-2 - i]:
-                valley = n - 1 - i
-            if peak < valley:
-                return self.isDecreasing(nums, peak, valley)
+        while i < n and nums[i - 1] < nums[i]:
+            i += 1
+        p = i - 1
 
-        return False
+        while i < n and nums[i - 1] > nums[i]:
+            i += 1
+        q = i - 1
 
+        while i < n and nums[i - 1] < nums[i]:
+            i += 1
+        flag = i - 1
 
-    def isDecreasing(self, A: List[int], a: int, b: int) -> bool:
-        if a == 0 or b == len(A) - 1: return False
-        for i in range(a, b):
-            if A[i] <= A[i + 1]: return False
-        return True
+        return (p != 0) and (q != p) and (flag == n - 1 and flag != q)
